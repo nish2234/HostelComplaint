@@ -1,0 +1,17 @@
+*{
+  overflow-x: hidden;
+}
+.navbar-bg{
+  background-color: rgba(140, 203, 192, 0.87);
+}
+body{
+background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1000");
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
+}
+
+.heading{
+  font-size: "1.2rem";
+  font-weight: bold;
+}
