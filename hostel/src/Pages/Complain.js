@@ -7,7 +7,7 @@ function Complain() {
   return (
     <div>
       <Navbar/>
-      <Container sx={{marginTop : "20px" , display:"flex" , justifyContent:"center" }}>
+      <Container sx={{marginTop : "10px" , display:"flex" , justifyContent:"center" }}>
          <Forms/>
     </Container>
     </div>

@@ -1,19 +1,21 @@
 *{
   overflow-x: hidden;
 }
-.navbar-bg{
-  background-color: rgba(140, 203, 192, 0.87);
-}
-body{
-background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1000");
-background-repeat: no-repeat;
-background-size: cover;
-background-attachment: fixed;
-}
 
 
+
+input {
+  border: 2px solid rgb(45, 45, 45); /* Changes the border color to red */
+}
 .font{
   font-family: "Jersey 10 Charted", sans-serif;
 }
 
-
+#box1{
+  background-color: rgba(232, 221, 221, 0.724);
+}
+.authBack{
+  background-image: url("hostelbg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}

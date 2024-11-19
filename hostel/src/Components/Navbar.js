@@ -13,11 +13,18 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
+import logo from '../Assets/vitlogo.png';
+import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/authContext'
+import { doSignOut } from '../firebase/auth'
 
 
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+    const navigate = useNavigate()
+    const { userLoggedIn } = useAuth()
   
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -27,14 +34,25 @@ function Navbar() {
     const handleCloseNavMenu = () => {
       setAnchorElNav(null);
     };
-    const navigate = useNavigate();
+   
   
 
   return (
-    <AppBar position="static" sx={{backgroundColor : "rgba(18, 51, 46, 0.87)"}}>
+    <AppBar position="static" sx={{backgroundColor : "#1976d2"}}>
     <Container maxWidth="xl">
       <Toolbar disableGutters>
-        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        
+      <Box
+            component="img"
+            src={logo}
+            alt="logo"
+            sx={{
+              display: { xs: "none", md: "flex" },
+              width: 60,
+              height: 60,
+              mr: 1,
+            }}
+          />
         <Typography
           variant="h6"
           noWrap
@@ -48,7 +66,7 @@ function Navbar() {
             textDecoration: 'none',
           }}
         >
-          VITHOSTELS
+          VHOST
         </Typography>
 
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -90,6 +108,21 @@ function Navbar() {
               <MenuItem onClick={handleCloseNavMenu}>
               <Typography textAlign="center"onClick={()=>navigate("/complain")}>Complain</Typography>
               </MenuItem>
+
+              {
+                userLoggedIn
+                ?
+                <>
+
+              <MenuItem onClick={handleCloseNavMenu}>
+              <Typography textAlign="center" onClick={() => { doSignOut().then(() => { navigate('/login') }) }}>Logout</Typography>
+              </MenuItem> 
+              </>
+                
+                
+                :
+                <></>
+              }
               
               
             
@@ -134,6 +167,22 @@ function Navbar() {
             >
              Complain
             </Button>
+
+            {
+                userLoggedIn
+                ?
+                <>
+              <Button
+               onClick={() => { doSignOut().then(() => { navigate('/login') }) }}
+              sx={{ my: 2, color: 'white', display: 'block' , ":hover" : {color : "blanchedalmond"} }}
+              >
+              Logout
+              </Button>
+              </>
+                
+              :
+                <></>
+              }
        
         </Box>
 

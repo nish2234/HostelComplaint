@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.Exception.ApiResponse;
 import com.blog.payloads.PostDto;
 import com.blog.service.PostService;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/")
 public class PostController {

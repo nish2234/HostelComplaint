@@ -4,124 +4,162 @@ import { loadAllCategory } from '../Services/CategoryService';
 import { loadAllBlocks } from '../Services/BlockService';
 import { createIssue } from '../Services/PostService';
 import { toast } from 'react-toastify';
+import { styled } from '@mui/system';
+
+// Custom styled components
+const CustomBox = styled(Box)({
+    padding: "20px",
+    backgroundColor: "#f0f8ff", 
+    borderRadius: "8px", 
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", 
+    maxHeight: "90vh", 
+    overflow: "auto", 
+});
+
+const CustomButton = styled(Button)({
+    marginTop: "10px", 
+    backgroundColor: "#3f51b5", 
+    '&:hover': {
+        backgroundColor: "#2c387e", 
+    },
+});
 
 function Forms() {
-     
-    //structure
-    const[post , setpost] = useState({
-        username : "" , 
-        regno : "",
-        room : "",
-        content : ""
-
+    // structure
+    const [post, setPost] = useState({
+        username: "",
+        regno: "",
+        room: "",
+        content: ""
     });
-    const [category , setcategory] = useState([]);
-    const [block , setblock] = useState([]);
-    const handlechange = (event , property)=>{
-          setpost({...post , [property] : event.target.value});
+    const [category, setCategory] = useState([]);
+    const [block, setBlock] = useState([]);
+
+    const handleChange = (event, property) => {
+        setPost({ ...post, [property]: event.target.value });
     }
+
     // load all categories
-
-    const loadCategories = ()=>{
-      loadAllCategory().then((data)=>{
-        //console.log(data);
-        setcategory(data);
-      }).catch((err)=>{
-        console.log(err);
-      })
+    const loadCategories = () => {
+        loadAllCategory().then((data) => {
+            setCategory(data);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
+
     // load all blocks
-    const loadBlocks = ()=>{
-      loadAllBlocks().then((data)=>{
-        setblock(data);
-      }).catch((err)=>{
-        console.log(err);
-      })
+    const loadBlocks = () => {
+        loadAllBlocks().then((data) => {
+            setBlock(data);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
-    useEffect(()=>{
-      loadCategories();
-      loadBlocks();
-    })
-    
+
+    useEffect(() => {
+        loadCategories();
+        loadBlocks();
+    }, []); 
+
     // set Ids
-    const [categoryId , setCategoryId] = useState('');
-    const [blockId , setblockId] = useState('');
-    const reset = ()=>{
-      setpost({
-        username : "" , 
-        regno : "",
-        room : "",
-        content : ""
-      })
-      setCategoryId('');
-      setblockId('');
-    }
-    //submit button
-    const handleSubmit = ()=>{
-         createIssue(post , categoryId , blockId).then((data)=>{
-          //console.log(data);
-          toast.success("Issue created successfully")
-          reset();
-         }).catch((err)=>{
-          console.log(err);
-         })
+    const [categoryId, setCategoryId] = useState('');
+    const [blockId, setBlockId] = useState('');
+
+    const reset = () => {
+        setPost({
+            username: "",
+            regno: "",
+            room: "",
+            content: ""
+        })
+        setCategoryId('');
+        setBlockId('');
     }
 
+    // submit button
+    const handleSubmit = () => {
+        createIssue(post, categoryId, blockId).then((data) => {
+            toast.success("Issue created successfully")
+            reset();
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
 
-   
+    return (
+        <CustomBox width="60%">
+            <Stack spacing={2}> 
+                <Typography variant="h4" gutterBottom align="center" fontWeight="bold" color="#3f51b5">
+                    Complaint Form
+                </Typography>
+                <TextField 
+                    label="Name" 
+                    variant="filled" 
+                    value={post.username} 
+                    onChange={(e) => handleChange(e, "username")} 
+                    sx={{ bgcolor: '#fff', borderRadius: '4px' }} 
+                />
+                <TextField 
+                    label="Registration Number" 
+                    variant="filled" 
+                    value={post.regno} 
+                    onChange={(e) => handleChange(e, "regno")} 
+                    sx={{ bgcolor: '#fff', borderRadius: '4px' }}
+                />
+                <TextField 
+                    label="Room Number" 
+                    variant="filled" 
+                    value={post.room} 
+                    onChange={(e) => handleChange(e, "room")} 
+                    sx={{ bgcolor: '#fff', borderRadius: '4px' }}
+                />
+                <TextField 
+                    label="Problem Description" 
+                    variant="filled" 
+                    value={post.content} 
+                    multiline 
+                    rows={4} 
+                    onChange={(e) => handleChange(e, "content")} 
+                    sx={{ bgcolor: '#fff', borderRadius: '4px' }}
+                />
 
-  return (
-    <Box width="100%" sx={{ padding: "15px" , backgroundColor:"rgba(140, 203, 192, 0.87)"}}>
-   
+                <FormControl variant='filled' fullWidth>
+                    <InputLabel>Category of Problem</InputLabel>
+                    <Select
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        sx={{ bgcolor: '#fff', borderRadius: '4px' }}
+                    >
+                        {category.map((cat) => (
+                            <MenuItem key={cat.cid} value={cat.cid}>
+                                {cat.categoryName}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-      <Stack spacing={3}>
-      <Typography variant="h5" gutterBottom>
-        Complain Form
-      </Typography>
-      <TextField id="outlined-basic" label="Name" variant="filled" value={post.username} onChange={(e)=>handlechange(e , "username")}/>
-      <TextField id="outlined-basic" label="Registration Number" value={post.regno} variant="filled" onChange={(e)=>handlechange(e , "regno")} />
-      <TextField id="outlined-basic" label="Room Number" variant="filled" value={post.room} onChange={(e)=>handlechange(e , "room")} />
-      <TextField id="outlined-basic" label="Problem description" variant="filled" value={post.content} multiline rows={4} onChange={(e)=>handlechange(e , "content")} />
+                <FormControl variant='filled' fullWidth>
+                    <InputLabel>Block</InputLabel>
+                    <Select
+                        value={blockId}
+                        onChange={(e) => setBlockId(e.target.value)}
+                        sx={{ bgcolor: '#fff', borderRadius: '4px' }}
+                    >
+                        {block.map((cat) => (
+                            <MenuItem key={cat.bid} value={cat.bid}>
+                                {cat.blockname}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-      <FormControl variant='filled' fullWidth>
-        <InputLabel id="demo-simple-select-label">Category of Problem</InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={categoryId}
-            label="Category of Problem"
-            onChange={(e)=>setCategoryId(e.target.value)}
-        >
-            {category.map((cat) => (
-                    <MenuItem key={cat.cid} value={cat.cid}>
-                      {cat.categoryName}
-                    </MenuItem>
-             ))}
-        </Select>
-        </FormControl>
-
-        <FormControl variant='filled' fullWidth>
-        <InputLabel id="demo-simple-select-label">Block</InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={blockId}
-            label="Category of Problem"
-            onChange={(e)=>setblockId(e.target.value)}
-        >
-            {block.map((cat) => (
-                    <MenuItem key={cat.bid} value={cat.bid}>
-                      {cat.blockname}
-                    </MenuItem>
-             ))}
-        </Select>
-        </FormControl>
-
-        <Button variant="contained" color='success' onClick={()=>handleSubmit()}>Submit Form</Button>
-
-      </Stack>
-    </Box>
-  )
+                <CustomButton variant="contained" color='success' onClick={handleSubmit}>
+                    Submit Form
+                </CustomButton>
+            </Stack>
+        </CustomBox>
+    )
 }
 
-export default Forms
+export default Forms;

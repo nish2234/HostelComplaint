@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.payloads.BlockDto;
 import com.blog.service.BlockService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/")
 public class BlockController {

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.payloads.CategoryDto;
 
 import com.blog.service.CategoryService;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/")
 public class CategoryController {

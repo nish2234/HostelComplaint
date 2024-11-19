@@ -4,11 +4,15 @@ import Carousell from '../Components/Carousell'
 import { Container } from '@mui/material'
 import Vitabout from '../Components/Vitabout'
 import Landing from '../Components/Landing'
+import { useAuth } from '../contexts/authContext'
 
 
 function Home() {
+
+  const { userLoggedIn } = useAuth()
   return (
-    <>
+    userLoggedIn ?
+  <>
     <Navbar/>
     <Container sx={{display : "flex"  ,  justifyContent : "space-between" , alignItems : "center" , marginTop :"40px", flexDirection : {xs : "column" , md :"row"} , width : '70vw'}}>
       <Landing/>
@@ -26,6 +30,10 @@ function Home() {
     
     
     </>
+
+    :
+
+    <></>
       
       
     
